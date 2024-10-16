@@ -74,89 +74,96 @@ ui <- fluidPage(
       sandbox = "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';"
     )
   ),
-  titlePanel("Regional Data"),
-  layout_columns(
-    card(
-      accordion(
-        accordion_panel(
-          id = "import",
-          title = "Import",
-          icon = icon(
-            "upload",
-            style = "display: block; float: left; margin-right: 10px;"
-          ),
-          card(
-            fileInput(
-              "file_upload",
-              "Upload CSV, tiff, or shapefile",
-              accept = c(".csv", ".tif", ".tiff", ".shp")
-            )
-          )
-        ),
-        accordion_panel(
-          id = "export",
-          title = "Export",
-          icon = icon(
-            "download",
-            style = "display: block; float: left; margin-right: 10px;"
-          ),
-          card(
-            selectInput(
-              "gcms",
-              "GCMS",
-              choices = climr::list_gcms(),
-              multiple = TRUE
-            ),
-            selectInput(
-              "ssps",
-              "Shared socioeconomic pathways",
-              choices = ssp_choices,
-              multiple = TRUE
-            ),
-            selectInput(
-              "gcm_periods",
-              "GCM Periods",
-              choices = climr::list_gcm_periods(),
-            ),
-            selectInput(
-              "gcm_hist_years",
-              "GCM Historical Years",
-              choices = climr::list_gcm_hist_years(),
-              multiple = TRUE
-            ),
-            selectInput(
-              "gcm_ssp_years",
-              "GCM SSP Years",
-              choices = ssp_years_choices,
-              multiple = TRUE
-            ),
-            selectInput(
-              "obs_years",
-              "Observed Years",
-              choices = climr::list_obs_years(),
-              multiple = TRUE
-            ),
-            selectInput(
-              "vars",
-              "Variables to include",
-              climr::list_vars(),
-              multiple = TRUE
-            ),
-            selectInput(
-              "refMap",
-              "Reference Map",
-              climr::list_refmaps()
+  fluidRow(
+    column(
+      width = 9, offset = 1,
+      titlePanel("Regional Data Downscaling"),
+      h3("Define points on the map or upload a file.")
+    )
+  ),
+  fluidRow(
+    column(
+      width = 3, offset = 1,
+      card(
+        accordion(
+          accordion_panel(
+            id = "import",
+            title = "Select",
+            icon = icon("pencil"),
+            card(
+              fileInput(
+                "file_upload",
+                "Create selection from file upload",
+                placeholder = "CSV, TIFF, or SHP",
+                accept = c(".csv", ".tif", ".tiff", ".shp"),
+                buttonLabel = "Select a file"
+              )
             )
           ),
-          downloadButton("download", "Download CSV")
+          accordion_panel(
+            id = "export",
+            title = "Export",
+            icon = icon("download"),
+            card(
+              selectInput(
+                "gcms",
+                "GCMS",
+                choices = climr::list_gcms(),
+                multiple = TRUE
+              ),
+              selectInput(
+                "ssps",
+                "Shared socioeconomic pathways",
+                choices = ssp_choices,
+                multiple = TRUE
+              ),
+              selectInput(
+                "gcm_periods",
+                "GCM Periods",
+                choices = climr::list_gcm_periods(),
+              ),
+              selectInput(
+                "gcm_hist_years",
+                "GCM Historical Years",
+                choices = climr::list_gcm_hist_years(),
+                multiple = TRUE
+              ),
+              selectInput(
+                "gcm_ssp_years",
+                "GCM SSP Years",
+                choices = ssp_years_choices,
+                multiple = TRUE
+              ),
+              selectInput(
+                "obs_years",
+                "Observed Years",
+                choices = climr::list_obs_years(),
+                multiple = TRUE
+              ),
+              selectInput(
+                "vars",
+                "Variables to include",
+                climr::list_vars(),
+                multiple = TRUE
+              ),
+              selectInput(
+                "refMap",
+                "Reference Map",
+                climr::list_refmaps()
+              )
+            ),
+            downloadButton("download", "Download CSV")
+          ),
+          id = "options",
         ),
-        id = "options",
-        # open = "import",
-      ),
+      )
     ),
-    card(
-      withSpinner(leafletOutput("map", height = 500)),
-      tableOutput("points_table"),
+    column(
+      width = 7,
+      card(
+        withSpinner(leafletOutput("map", height = 500)),
+        tableOutput("points_table"),
+      )
     ),
     tags$div(
       id = "progress-modal", class = "modal", style = "display: none;",
@@ -293,7 +300,7 @@ server <- function(input, output, session) {
       )
     },
     sanitize.text.function = function(x) x,
-    striped = TRUE,
+    striped = TRUE
   )
 
   output$download <- downloadHandler(
