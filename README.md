@@ -11,7 +11,7 @@ Proof of concept application demonstrating:
 * data layers display
 * complete options controls
 
-Following the design of https://thebeczone.ca/shiny/cciss/ but replacing lots of massive text with iconography and less and less massive text, this is meant to provide a public facing proof of proficiency in R, Shiny and applications development.
+Following the design of https://thebeczone.ca/shiny/cciss/ but replacing text with iconography where possible; this is meant to provide a public facing proof of proficiency in R, Shiny and applications development.
 
 ![image](https://github.com/user-attachments/assets/e3aa0797-57e3-4d69-9167-0b6f8cbb8053)
 
