@@ -18,3 +18,6 @@ Following the design of https://thebeczone.ca/shiny/cciss/ but replacing text wi
 ![image](https://github.com/user-attachments/assets/28ee4bda-2e30-47bc-9daf-541b659892ef)
 
 **downscale()** output from a randomly selected set of points and simulation set.
+
+#### NOTE
+The code does not include any installation invocations and will require devtools and rnaturalearthhires installed via devtools.
